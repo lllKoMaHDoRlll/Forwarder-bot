@@ -16,6 +16,6 @@ class PlainTextPost:
 
 @dataclass
 class PhotoPost:
-    photo_url: str
+    photos_url: list[str]
     caption: str | None = None
 
