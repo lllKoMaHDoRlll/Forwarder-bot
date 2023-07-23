@@ -12,7 +12,8 @@ def get_config(config_path: Path = Path("./data/config.json")) -> ConfigData | N
         try:
             with open(config_path, "r") as file:
                 config_data = json.load(file)
-                config_data.update({"token": os.getenv("TOKEN")})
+                config_data.update({"tg_token": os.getenv("TG_TOKEN")})
+                config_data.update({"vk_token": os.getenv("VK_TOKEN")})
             config_data = ConfigData(**config_data)
             return config_data
         except Exception:
