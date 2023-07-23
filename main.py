@@ -1,8 +1,7 @@
-from backend.forwarder_bot import ForwarderBot
-from time import sleep
+from backend.forwarder import Forwarder
 
 if __name__ == "__main__":
-    bot = ForwarderBot()
+    forwarder = Forwarder()
 
-    bot.run()
-
+    forwarder.load()
+    forwarder.start()
