@@ -5,4 +5,8 @@ class LoadError(Exception):
 
 
 class GettingPostsError(Exception):
-    """Error with getting posts"""
+    """Error with getting posts."""
+
+
+class SendMessageError(Exception):
+    """Error with sending message."""
