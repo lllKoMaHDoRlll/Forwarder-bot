@@ -12,7 +12,7 @@ class PostsParser:
         self.vk_api = API(access_token=self.config_data.vk_token, v=self.config_data.vk_api_version)
         self.last_post_timestamp = self._get_last_post_timestamp()
 
-    def _get_raw_channel_posts(self, count: int = 5) -> dict | NoReturn:
+    def _get_raw_channel_posts(self, count: int = 15) -> dict | NoReturn:
         try:
             return self.vk_api.wall.get(owner_id=self.config_data.from_channel_id, count=count)
         except Exception as error:
@@ -72,3 +72,20 @@ class PostsParser:
                 raise ValueError("Unhandled post type")
         except Exception as error:
             raise GettingPostsError("Error with forming post object: {}".format(error))
+
+    def get_posts_to_send(self) -> list[PhotoPost | PlainTextPost]:
+        try:
+            raw_posts = self._get_raw_channel_posts()["items"]
+            raw_filtered_posts = self._filter_new_posts(raw_posts)
+        except GettingPostsError:
+            return []
+
+        posts_to_send: list[PhotoPost | PlainTextPost] = []
+        for post in raw_filtered_posts:
+            try:
+                post_object = self._form_post_object(post)
+                posts_to_send.append(post_object)
+            except GettingPostsError:
+                pass
+
+        return posts_to_send
