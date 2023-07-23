@@ -21,3 +21,15 @@ class MessageSender:
             self.tg_api.send_message(chat_id=self.config_data.to_group_id, text=post.text)
         except Exception as error:
             raise SendMessageError("Error with sending plain text: {}".format(error))
+
+    def _send_post(self, post: PhotoPost | PlainTextPost) -> None:
+        if isinstance(post, PhotoPost):
+            self._send_photo_post(post)
+        elif isinstance(post, PlainTextPost):
+            self._send_plain_text_post(post)
+        else:
+            pass
+
+    def send_posts(self, posts: list[PhotoPost | PlainTextPost]) -> None:
+        for post in posts:
+            self._send_post(post)
