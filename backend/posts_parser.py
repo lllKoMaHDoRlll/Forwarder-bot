@@ -75,11 +75,15 @@ class PostsParser:
         except Exception as error:
             raise GettingPostsError("Error with forming post object: {}".format(error))
 
+    def _update_last_post_timestamp(self, timestamp: int) -> None:
+        self.last_post_timestamp = timestamp
+
     def get_posts_to_send(self) -> list[PhotoPost | PlainTextPost]:
         try:
             raw_posts = self._get_raw_channel_posts()["items"]
             raw_filtered_posts = self._filter_new_posts(raw_posts)
-        except GettingPostsError:
+            self._update_last_post_timestamp(raw_posts[0]["date"])
+        except GettingPostsError as ex:
             return []
 
         posts_to_send: list[PhotoPost | PlainTextPost] = []
