@@ -19,7 +19,7 @@ class PostsParser:
             raise GettingPostsError("Error has occurred while accessing VK API: {}".format(error))
 
     def _filter_new_posts(self, raw_posts: list) -> list | NoReturn:
-        new_posts = []
+        new_posts: list[dict] = []
 
         try:
             for post in raw_posts:
@@ -27,6 +27,8 @@ class PostsParser:
                     return new_posts
 
                 new_posts.append(post)
+
+            return new_posts
         except Exception as error:
             raise GettingPostsError("Error with filtering new posts: {}".format(error))
 
