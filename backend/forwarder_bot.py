@@ -28,4 +28,4 @@ class ForwarderBot:
         await message.send_copy(chat_id=self.config_data.to_group_id)
 
     def run(self):
-        self.dispatcher.run_polling(self.bot)
+        self.tg_dispatcher.run_polling(self.tg_bot)
