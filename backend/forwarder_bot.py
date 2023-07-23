@@ -9,17 +9,19 @@ from backend.forwarder_handler import ForwarderHandler
 class ForwarderBot:
     def __init__(self):
         self.config_data: None | ConfigData = None
+        self.tg_bot: None | Bot = None
+        self.tg_dispatcher: None | Dispatcher = None
+        self.forwarder_handler: None | ForwarderHandler = None
         self._load()
 
     def _load(self):
         config_data = get_config()
         self.config_data = config_data
-        print(self.config_data)
 
-        self.bot = Bot(token=self.config_data.tg_token)
-        self.forwarder_handler = ForwarderHandler(bot=self.bot, config_data=self.config_data)
+        self.tg_bot = Bot(token=self.config_data.tg_token)
+        self.forwarder_handler = ForwarderHandler(bot=self.tg_bot, config_data=self.config_data)
 
-        self.dispatcher = Dispatcher()
+        self.tg_dispatcher = Dispatcher()
 
     async def echo(self, message: Message):
         print(message.chat.id)
