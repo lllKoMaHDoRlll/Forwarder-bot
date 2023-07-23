@@ -1,5 +1,5 @@
 from telebot import TeleBot
-
+from time import sleep
 from vk import API
 
 from backend.data_classes import ConfigData
@@ -24,3 +24,12 @@ class ForwarderBot:
         self.tg_bot = TeleBot(token=self.config_data.tg_token)
         self.forwarder_handler = ForwarderHandler(bot=self.tg_bot, config_data=self.config_data, vk_api=self.vk_api)
 
+
+    def run(self):
+        while True:
+            sleep(10)
+            new_posts = self.forwarder_handler.get_new_channel_posts()
+            if new_posts:
+                for post in new_posts:
+                    if "attachments" in post.keys() and post["attachments"][0]["type"] == "photo":
+                        self.forwarder_handler.forward_photo(post["attachments"][0]["photo"]["sizes"][-1]["url"])
