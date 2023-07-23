@@ -32,8 +32,10 @@ class PostsParser:
 
     def _get_last_post_timestamp(self) -> int:
         try:
-            timestamp = self._get_raw_channel_posts(count=1)
+            timestamp = self._get_raw_channel_posts(count=1)["items"][0]["date"]
         except GettingPostsError:
+            timestamp = 0
+        except KeyError:
             timestamp = 0
         return timestamp
 
@@ -54,7 +56,7 @@ class PostsParser:
 
     def _form_post_object(self, post: dict) -> PlainTextPost | PhotoPost | NoReturn:
         try:
-            if "attachments" in post.keys():
+            if post["attachments"]:
                 photos = []
                 for attachment in post["attachments"]:
                     if attachment["type"] == "photo":
