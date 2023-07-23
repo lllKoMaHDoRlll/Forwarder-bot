@@ -7,4 +7,5 @@ class ConfigData:
     vk_token: str
     from_channel_id: int
     to_group_id: int
+    vk_api_version: str
 
