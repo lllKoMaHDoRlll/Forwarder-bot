@@ -3,8 +3,8 @@
 ## Setup
 
 To setup Forwarder you will need next stuff:
-1. Telegram bot token ()
-2. Vk app service token ()
+1. Telegram bot token (https://core.telegram.org/bots/features#botfather)
+2. Vk app service token (https://dev.vk.com/mini-apps/management/settings)
 
 Then follow these steps:
 1. Create venv
